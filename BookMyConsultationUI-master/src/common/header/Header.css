@@ -1,0 +1,40 @@
+.app-header {
+    background-color: purple;
+    height: 35px;
+    padding: 11px;
+}
+
+.login-button {
+    float: right;
+    color: blue;
+}
+
+.appName {
+    display:inline-flex;
+    color: white;
+    height: 35px;
+    padding-left: 10px;
+
+}
+
+.app-logo {
+    height: 35px;
+
+}
+
+
+.tabs {
+    margin-bottom: 20px;
+}
+
+.dispNone {
+    display: none;
+}
+
+.dispBlock {
+    display: block;
+}
+
+.red {
+    color: red;
+}

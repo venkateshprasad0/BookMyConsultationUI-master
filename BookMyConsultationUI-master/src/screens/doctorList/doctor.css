@@ -1,0 +1,37 @@
+h1{
+    text-align: center;
+}
+
+.card{
+    width: 900px;
+    height: 500px;
+    border-radius: 5px;
+    background: rgba(0,0,0,0.05);
+    margin-top: 30px;
+    margin-right: 20%;
+    margin-left: 20%;
+}
+
+#input{
+    width: 700px;
+}
+#input2{
+    width: 700px;
+}
+#input3{
+    width: 700px;
+}
+.btn, .btn:link, .btn:visited {
+    
+}
+
+.lnk, .lnk:link, .lnk:visited{
+    text-decoration: none;
+    color: white;
+}
+
+.homeBtn, .homeBtn:visited, .homeBtn:link{
+    text-decoration: none;
+    color: black;
+    width: 180px;
+}
