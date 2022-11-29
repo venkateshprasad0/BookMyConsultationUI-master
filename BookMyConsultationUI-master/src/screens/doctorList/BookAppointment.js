@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { TextField, Card } from "@material-ui/core";
+import { TextField, Card, Select } from "@material-ui/core";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import FormControl from '@material-ui/core/FormControl';
@@ -9,7 +9,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import TabContainer from "../../common/tabContainer/TabContainer";
 import Button from '@material-ui/core/Button';
 import {Link} from "react-router-dom";
-import { Redirect } from 'react-router'
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+
 
 
 import './doctor.css';
@@ -27,7 +29,8 @@ export default class BookAppointment extends Component {
       userName: "",
       userEmailId: "",
       timeSlot: "",
-      appointmentDate: "",
+      timeSlots: [],
+      appointmentDate: "2021-11-28",
       symptoms: "",
       priorMedicalHistory: "NA",
       createdDate: "",
@@ -51,6 +54,11 @@ export default class BookAppointment extends Component {
     this.state.userId = sessionStorage.getItem("uuid");
     this.state.userEmailId = sessionStorage.getItem("uuid");
     this.state.userName = sessionStorage.getItem("First_Name");
+    this.getTimeSlots();
+  }
+
+  tsBtnHandler = () =>{
+    this.getTimeSlots();
   }
 
   bookAppointmentHandler = () => {
@@ -93,10 +101,38 @@ export default class BookAppointment extends Component {
 
   inputAppointmentDateChangeHandler = (e) => {
     this.setState({ appointmentDate: e.target.value });
+    
   }
 
   inputTimeSlotChangeHandler = (e) => {
     this.setState({ timeSlot: e.target.value });
+    
+  }
+
+  handleChange = e => {
+    
+    this.setState({ timeSlot: e.target.value });
+    console.log("selected timeslot ", this.state.timeSlot);
+
+}
+
+  getTimeSlots(){
+    let dataTimeSlots = null;
+    let xhrTimeSlots = new XMLHttpRequest();
+    let that = this;
+    xhrTimeSlots.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            that.setState({
+                timeSlots: JSON.parse(this.responseText)['timeSlot']
+            });
+        }
+    });
+
+    xhrTimeSlots.open("GET", this.state.baseUrl + "doctors/" + encodeURI(this.state.doctorId) + "/timeSlots?date=" + encodeURI(this.state.appointmentDate));
+    xhrTimeSlots.setRequestHeader("Cache-Control", "no-cache");
+    xhrTimeSlots.send(dataTimeSlots);
+    console.log("Time Slots of Doctor",this.state.timeSlots);
+
   }
 
   render() {
@@ -106,6 +142,16 @@ export default class BookAppointment extends Component {
           <TabContainer>
             <h1> Book Appointment </h1>
             <h3> Doctor Name: {this.state.doctorName}</h3>
+          
+
+            <FormControl required>
+              <InputLabel htmlFor="appointmentDate">Appointment Date</InputLabel>
+              <Input id="input2" type="text" appointmentDate={this.state.appointmentDate} onChange={this.inputAppointmentDateChangeHandler} />
+              <FormHelperText>
+                <span className="red">required Format YYYY-MM-DD </span>
+              </FormHelperText>
+            </FormControl>
+
             <FormControl required>
               <InputLabel htmlFor="firstname">Visit Reason</InputLabel>
               <Input id="input" type="text" reason={this.state.symptoms} onChange={this.inputSymptomsChangeHandler} />
@@ -114,24 +160,26 @@ export default class BookAppointment extends Component {
               </FormHelperText>
             </FormControl>
 
-            <FormControl required>
-              <InputLabel htmlFor="appointmentDate">Appointment Date</InputLabel>
-              <Input id="input2" type="text" appointmentDate={this.state.appointmentDate} onChange={this.inputAppointmentDateChangeHandler} />
-              <FormHelperText>
-                <span className="red">required Format YYYY/MM/DD </span>
-              </FormHelperText>
-            </FormControl>
-
-            <FormControl required>
-              <InputLabel htmlFor="timeSlot"> Time Slot </InputLabel>
-              <Input id="input3" type="text" timeSlot={this.state.timeSlot} onChange={this.inputTimeSlotChangeHandler} />
-              <FormHelperText>
-                <span className="red">required Format (ex. 01PM-02PM) </span>
-              </FormHelperText>
-            </FormControl>
-
             <TabContainer>
+            <Button variant="contained" color="default" onClick={this.tsBtnHandler}>
+              Get TimeSlots
+            </Button>
+            <br/>
+            <FormControl required>
+             <h4>Select Time Slot</h4>
+                <Select onClick={this.handleChange}>
+                  {this.state.timeSlots.map( ts => (
+                    <MenuItem key={ts} value={ts} onClick = { e => this.inputTimeSlotChangeHandler(e)}  > {ts} </MenuItem>
+                  )
 
+                  )
+
+                  }
+                </Select>
+            </FormControl>
+            </TabContainer>
+            <TabContainer>
+              <br/>
             <Button variant="contained" color="default" onClick={this.bookAppointmentHandler}>
               Book Appointment
             </Button>

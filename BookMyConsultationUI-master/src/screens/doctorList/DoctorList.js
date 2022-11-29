@@ -6,7 +6,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Rating from "@material-ui/lab/Rating";
 import {Link} from "react-router-dom";
 import './doctor.css'
-import { NoEncryption } from "@material-ui/icons";
+
 
 
 class DocotrList extends Component {

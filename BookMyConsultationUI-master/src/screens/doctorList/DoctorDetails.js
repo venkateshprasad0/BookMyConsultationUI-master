@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { TextField, Card, CardContent } from "@material-ui/core";
-
+import {Link} from "react-router-dom";
+import TabContainer from "../../common/tabContainer/TabContainer";
 import Button from '@material-ui/core/Button';
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
@@ -81,6 +82,10 @@ export default class DoctorDetails extends Component{
                                 Rating: <Rating name="read-only" value={this.state.doctorRating} readOnly />
                             </Typography>
                         </CardContent>
+         
+            <Button style= {{padding:'10px', margin:'25px', width:'50px'}}  variant="contained" color="default" onClick='/'>
+              <Link  to={`/`}>Home</Link>
+            </Button>
                     </Card>
             </div>
         )

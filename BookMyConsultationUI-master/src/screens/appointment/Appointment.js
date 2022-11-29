@@ -88,7 +88,7 @@ class Appointment extends Component {
                         </CardContent>
 
                         <CardActions>
-                            <Button className = 'btn'  style={{ backgroundColor: "blue", width: "200px", color: "white" }} > Rate Appointment </Button>
+                            
                             <RateAppointment appointmentId = {appointment.appointmentId}
                                              doctorId = {appointment.doctorId}   
                                                 ></RateAppointment>
