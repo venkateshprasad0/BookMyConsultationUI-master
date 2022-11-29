@@ -2,6 +2,11 @@ h1{
     text-align: center;
 }
 
+.header{
+    background-color: purple;
+    height: 30px;
+}
+
 .card{
     width: 900px;
     height: 600px;
@@ -13,13 +18,13 @@ h1{
 }
 
 #input{
-    width: 700px;
+    width: 200px;
 }
 #input2{
-    width: 700px;
+    width: 200px;
 }
 #input3{
-    width: 700px;
+    width: 300px;
 }
 .btn, .btn:link, .btn:visited {
     

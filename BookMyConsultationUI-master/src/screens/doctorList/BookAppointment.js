@@ -11,13 +11,22 @@ import Button from '@material-ui/core/Button';
 import {Link} from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-
+import Modal from 'react-modal';
 
 
 import './doctor.css';
 import { Router } from "react-router";
 
-
+const customStyles = {
+  content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)'
+  }
+};
 export default class BookAppointment extends Component {
 
   constructor() {
@@ -37,16 +46,26 @@ export default class BookAppointment extends Component {
       doctorFName: "",
       doctorSName: "",
       selectedDate: "",
-      baseUrl: "http://localhost:8080/"
+      baseUrl: "http://localhost:8080/",
+      modalIsOpen: false
     }
   }
+
+  openModalHandler = () => {
+    this.setState({ modalIsOpen: true });
+}
+
+closeModalHandler = () => {
+    this.setState({ modalIsOpen: false });
+}
+
 
 
   componentWillMount() {
     // console.log("location doctor id", this.props.match.params.doctorId);
-    this.state.doctorId = this.props.match.params.doctorId;
-    this.state.doctorFName = this.props.match.params.doctorFName;
-    this.state.doctorSName = this.props.match.params.doctorSName;
+    this.state.doctorId = this.props.doctorId;
+    this.state.doctorFName = this.props.doctorFirstName;
+    this.state.doctorSName = this.props.doctorLastName;
     console.log("doctorId ", this.state.doctorId);
     console.log("doctor's First name", this.state.doctorFName);
     this.state.doctorName = this.state.doctorFName.concat(" ", this.state.doctorSName);
@@ -54,7 +73,17 @@ export default class BookAppointment extends Component {
     this.state.userId = sessionStorage.getItem("uuid");
     this.state.userEmailId = sessionStorage.getItem("uuid");
     this.state.userName = sessionStorage.getItem("First_Name");
-    this.getTimeSlots();
+    
+  }
+
+  componentWillReceiveProps(props){
+    this.state.doctorId = props.doctorId;
+    this.state.doctorFName = props.doctorFirstName;
+    this.state.doctorSName = props.doctorLastName;
+    console.log("doctorId ", this.state.doctorId);
+    console.log("doctor's First name", this.state.doctorFName);
+    this.state.doctorName = this.state.doctorFName.concat(" ", this.state.doctorSName);
+    console.log("Doctor Full Name ", this.state.doctorName);
   }
 
   tsBtnHandler = () =>{
@@ -66,8 +95,8 @@ export default class BookAppointment extends Component {
     let dataAppointment = JSON.stringify( {
       "doctorId" : this.state.doctorId,
       "doctorName" : this.state.doctorName,
-      "userId" : this.state.userId,
-      "userEmailId": this.state.userEmailId,
+      "userId" : sessionStorage.getItem("uuid"),
+      "userEmailId": sessionStorage.getItem("uuid"),
       "timeSlot" : this.state.timeSlot,
       "appointmentDate" : this.state.appointmentDate,
       "createdDate" : "",
@@ -138,7 +167,17 @@ export default class BookAppointment extends Component {
   render() {
     return (
       <div>
-        <Card className="card">
+
+<Button className="btn" onClick={this.openModalHandler} style={{margin:"10px", backgroundColor:"blue", width:"270px", color:"white"}} > BOOK APPOINTMENT </Button>
+
+        <Modal
+          ariaHideApp={false}
+          isOpen={this.state.modalIsOpen}
+          contentLabel="Rating"
+          onRequestClose={this.closeModalHandler}
+          style={customStyles}
+        >
+          <div className="header"></div>
           <TabContainer>
             <h1> Book Appointment </h1>
             <h3> Doctor Name: {this.state.doctorName}</h3>
@@ -151,6 +190,8 @@ export default class BookAppointment extends Component {
                 <span className="red">required Format YYYY-MM-DD </span>
               </FormHelperText>
             </FormControl>
+
+            <br/>
 
             <FormControl required>
               <InputLabel htmlFor="firstname">Visit Reason</InputLabel>
@@ -187,13 +228,13 @@ export default class BookAppointment extends Component {
             </TabContainer>
               <br/>
             <TabContainer>
-            <Button className="homeBtn" variant="contained" color="default" onClick='/'>
-              <Link className="homeBtn" to={`/`}>Home</Link>
+            <Button className="homeBtn" variant="contained" color="default" onClick={this.closeModalHandler}>
+              Close
             </Button>
             </TabContainer>
 
           </TabContainer>
-        </Card>
+      </Modal>
       </div>
     )
   }

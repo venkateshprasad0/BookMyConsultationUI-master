@@ -7,6 +7,7 @@ import Rating from "@material-ui/lab/Rating";
 import {Link} from "react-router-dom";
 import './doctor.css';
 import DoctorDetails from "./DoctorDetails";
+import BookAppointment from "./BookAppointment";
 
 
 
@@ -42,8 +43,8 @@ class DocotrList extends Component {
 
     handleChange = e => {
         console.log("selected value ", this.state.selectValue);
-        this.setState({ selectValue: e.target.value });
-
+        this.setState({selectValue:e.target.innerText});
+        this.getDoctors(e.target.innerText);
     }
 
     handleSubmit(event) {
@@ -52,7 +53,8 @@ class DocotrList extends Component {
         console.log("Doctors List.. ", this.state.doctors);
     }
 
-    getDoctors() {
+
+    getDoctors(selectValue) {
         let dataDoctors = null;
         let xhrDoctors = new XMLHttpRequest();
         let that = this;
@@ -64,7 +66,7 @@ class DocotrList extends Component {
             }
         });
 
-        xhrDoctors.open("GET", this.props.baseUrl + "doctors?speciality=" + encodeURI(this.state.selectValue));
+        xhrDoctors.open("GET", this.props.baseUrl + "doctors?speciality=" + encodeURI(selectValue));
         xhrDoctors.setRequestHeader("Cache-Control", "no-cache");
         xhrDoctors.send(dataDoctors);
         console.log(this.state.doctors);
@@ -75,7 +77,7 @@ class DocotrList extends Component {
         this.setState({
             selectValue: { value: 'CARDIOLOGIST' }
         })
-        this.getDoctors();
+        this.getDoctors('');
 
 
     }
@@ -87,15 +89,15 @@ class DocotrList extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <InputLabel id="demo-simple-select-label">Select Speciality</InputLabel>
                     <br></br>
-                    <Select onChange={this.handleChange} value={this.state.selectValue} >
-                        <MenuItem value={"CARDIOLOGIST"}>CARDIOLOGIST</MenuItem>
-                        <MenuItem value={"GENERAL_PHYSICIAN"}>GENERAL_PHYSICIAN</MenuItem>
-                        <MenuItem value={"DENTIST"}>DENTIST</MenuItem>
-                        <MenuItem value={"PULMONOLOGIST"}>PULMONOLOGIST</MenuItem>
-                        <MenuItem value={"ENT"}>ENT</MenuItem>
-                        <MenuItem value={"GASTRO"}>GASTRO</MenuItem>
+                    <Select value={this.state.selectValue} style={{width:"200px"}} >
+                        <MenuItem onClick={e => this.handleChange(e)} value={"CARDIOLOGIST"}>CARDIOLOGIST</MenuItem>
+                        <MenuItem onClick={e => this.handleChange(e)} value={"GENERAL_PHYSICIAN"}>GENERAL_PHYSICIAN</MenuItem>
+                        <MenuItem onClick={e => this.handleChange(e)} value={"DENTIST"}>DENTIST</MenuItem>
+                        <MenuItem onClick={e => this.handleChange(e)} value={"PULMONOLOGIST"}>PULMONOLOGIST</MenuItem>
+                        <MenuItem onClick={e => this.handleChange(e)} value={"ENT"}>ENT</MenuItem>
+                        <MenuItem onClick={e => this.handleChange(e)} value={"GASTRO"}>GASTRO</MenuItem>
                     </Select>
-                    <Button style={{margin:"10px", padding:"5px"}} className="SubmitBtn" variant="contained" onClick={this.handleSubmit}>Submit</Button>
+                    
 
                 </form>
                 {this.state.doctors.map(doctor =>
@@ -135,8 +137,8 @@ class DocotrList extends Component {
                         </CardContent>
 
                      <CardActions>
-                            <Button className="btn" style={{margin:"10px", backgroundColor:"blue", width:"40%" }}>
-                                 <Link className="lnk" to={`bookappointment/${doctor.id}/${doctor.firstName}/${doctor.lastName}`} > Book Appointment </Link></Button>
+                            <BookAppointment doctorId = {doctor.id} doctorFirstName= {doctor.firstName}
+                                doctorLastName = {doctor.lastName}></BookAppointment>
                             <DoctorDetails doctorId = {doctor.id} doctorFirstName= {doctor.firstName}
                                 doctorLastName = {doctor.lastName} mobile = {doctor.mobile} email = {doctor.emailId}
                                 speciality = {doctor.speciality} rating = {doctor.rating} ></DoctorDetails>

@@ -46,7 +46,7 @@ export default class DoctorDetails extends Component{
     }
 
 
-    componentWillMount(){
+    componentWillReceiveProps(props){
       this.state.doctorId=this.props.doctorId;
       this.state.doctorFName = this.props.doctorFirstName;
       this.state.doctorSName = this.props.doctorLastName;
@@ -59,7 +59,7 @@ export default class DoctorDetails extends Component{
     render(){
         return (
             <div>
-                <Button className="btn" onClick={this.openModalHandler} style={{margin:"10px", backgroundColor:"green", width:"250px", color:"white"}} > VIEW DETAILS </Button>
+                <Button className="btn" onClick={this.openModalHandler} style={{margin:"10px", backgroundColor:"green", width:"270px", color:"white"}} > VIEW DETAILS </Button>
 
                 
                 <Modal
@@ -69,13 +69,14 @@ export default class DoctorDetails extends Component{
                     onRequestClose={this.closeModalHandler}
                     style={customStyles}
                 >
+                    <div className="header"></div>
                             <h1> Details</h1>
                             <Typography
                                 style={{ fontSize: 14 }}
                                
                                 
                             >
-                                Doctor Name: {this.state.doctorFName} {this.state.doctorSName}
+                                Doctor Name: {this.props.doctorFirstName} {this.props.doctorLastName}
                             </Typography>
 
                             <Typography
@@ -83,34 +84,30 @@ export default class DoctorDetails extends Component{
                                
     
                             >
-                                Doctor Email : {this.state.doctorEmail}
+                                Doctor Email : {this.props.email}
                             </Typography>
                             <Typography
                                 style={{ fontSize: 14 }}
                                
     
                             >
-                                Doctor Mobile : {this.state.doctorMobile}
+                                Doctor Mobile : {this.props.mobile}
                             </Typography>
                             <Typography
                                 style={{ fontSize: 14 }}
                                
     
                             >
-                                Doctor Speciality : {this.state.doctorSpeciality}
+                                Doctor Speciality : {this.props.speciality}
                             </Typography>
                             <Typography
                                 style={{ fontSize: 14 }}
                                
     
                             >
-                                Rating: <Rating name="read-only" value={this.state.doctorRating} readOnly />
+                                Rating: <Rating name="read-only" value={this.props.rating} readOnly />
                             </Typography>
     
-         
-            <Button style= {{padding:'10px', margin:'25px', width:'50px'}}  variant="contained" color="default" onClick={this.closeModalHandler}>
-              Close
-            </Button>
             </Modal>
             </div>
         )

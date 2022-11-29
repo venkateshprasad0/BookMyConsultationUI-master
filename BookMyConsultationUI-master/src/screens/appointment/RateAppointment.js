@@ -73,7 +73,7 @@ export default class RateAppointment extends Component {
     render() {
         return (
             <div>
-                <Button className = 'btn' onClick={this.openModalHandler} style={{ backgroundColor: "blue", width: "200px", color: "white" }} > Rate Appointment </Button>
+                <Button className = 'btn' onClick={this.openModalHandler} style={{ backgroundColor: "blue", width: "250px", color: "white" }} > Rate Appointment </Button>
                 <Modal
                     ariaHideApp={false}
                     isOpen={this.state.modalIsOpen}
