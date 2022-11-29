@@ -14,10 +14,6 @@ const Controller = () => {
           render={(props) => <BookAppointment {...props} baseUrl={baseUrl} />}
         />
         <Route
-          path="/doctordetails/:doctorId/:doctorFName/:doctorSName/:doctorMobile/:doctorEmail/:doctorSpeciality/:doctorRating"
-          render={(props) => <DoctorDetails {...props} baseUrl={baseUrl} />}
-        />
-        <Route
           exact
           path="/"
           render={(props) => <Home {...props} baseUrl={baseUrl} />}

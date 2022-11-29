@@ -6,6 +6,20 @@ import Button from '@material-ui/core/Button';
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Rating from "@material-ui/lab/Rating";
+import Modal from 'react-modal';
+import { Input, InputLabel } from "@material-ui/core";
+
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
 
 export default class DoctorDetails extends Component{
 
@@ -18,32 +32,43 @@ export default class DoctorDetails extends Component{
             doctorMobile: "",
             doctorEmail : "",
             doctorSpeciality: "", 
-            doctorRating: ""
+            doctorRating: "",
+            modalIsOpen: false
         }
     }
+
+    openModalHandler = () => {
+        this.setState({ modalIsOpen: true });
+    }
+
+    closeModalHandler = () => {
+        this.setState({ modalIsOpen: false });
+    }
+
+
     componentWillMount(){
-      this.state.doctorId=this.props.match.params.doctorId;
-      this.state.doctorFName = this.props.match.params.doctorFName;
-      this.state.doctorSName = this.props.match.params.doctorSName;
-      this.state.doctorMobile= this.props.match.params.doctorMobile;
-      this.state.doctorEmail = this.props.match.params.doctorEmail;
-      this.state.doctorSpeciality= this.props.match.params.doctorSpeciality;
-      this.state.doctorRating= this.props.match.params.doctorRating;
+      this.state.doctorId=this.props.doctorId;
+      this.state.doctorFName = this.props.doctorFirstName;
+      this.state.doctorSName = this.props.doctorLastName;
+      this.state.doctorMobile= this.props.mobile;
+      this.state.doctorEmail = this.props.email;
+      this.state.doctorSpeciality= this.props.speciality;
+      this.state.doctorRating= this.props.rating;
     }
 
     render(){
         return (
             <div>
-                <Card className="cards"
-                    style={{
-                        width: "100%",
-                        margin: 10,
-                        alignItems: "center",
-                        justifySelf: "center"
-                      }}
-                    >
+                <Button className="btn" onClick={this.openModalHandler} style={{margin:"10px", backgroundColor:"green", width:"250px", color:"white"}} > VIEW DETAILS </Button>
 
-                        <CardContent>
+                
+                <Modal
+                    ariaHideApp={false}
+                    isOpen={this.state.modalIsOpen}
+                    contentLabel="Rating"
+                    onRequestClose={this.closeModalHandler}
+                    style={customStyles}
+                >
                             <h1> Details</h1>
                             <Typography
                                 style={{ fontSize: 14 }}
@@ -81,12 +106,12 @@ export default class DoctorDetails extends Component{
                             >
                                 Rating: <Rating name="read-only" value={this.state.doctorRating} readOnly />
                             </Typography>
-                        </CardContent>
+    
          
-            <Button style= {{padding:'10px', margin:'25px', width:'50px'}}  variant="contained" color="default" onClick='/'>
-              <Link  to={`/`}>Home</Link>
+            <Button style= {{padding:'10px', margin:'25px', width:'50px'}}  variant="contained" color="default" onClick={this.closeModalHandler}>
+              Close
             </Button>
-                    </Card>
+            </Modal>
             </div>
         )
     }

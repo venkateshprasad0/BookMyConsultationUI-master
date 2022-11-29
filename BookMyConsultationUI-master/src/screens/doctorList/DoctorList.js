@@ -5,7 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Rating from "@material-ui/lab/Rating";
 import {Link} from "react-router-dom";
-import './doctor.css'
+import './doctor.css';
+import DoctorDetails from "./DoctorDetails";
 
 
 
@@ -70,30 +71,7 @@ class DocotrList extends Component {
     }
 
     componentWillMount() {
-        // Get filters
-        // let dataSpeciality = null;
-        // let xhrSpeciality = new XMLHttpRequest();
-
-        // xhrSpeciality.addEventListener("readystatechange", function () {
-        //     if (this.readyState === 4) {
-        //         that.setState({
-        //             specialities: JSON.parse(this.responseText)
-        //         });
-
-        //     }
-        //     console.log("specialities",this.specialities);
-        // });
-
-        // xhrSpeciality.open("GET", this.props.baseUrl + "doctors/speciality");
-        // xhrSpeciality.setRequestHeader("Cache-Control", "no-cache");
-        // xhrSpeciality.send(dataSpeciality);
-
-        // this.state.specialities = [
-        //     "CARDIOLOGIST","GENERAL_PHYSICIAN","DENTIST","PULMONOLOGIST","ENT","GASTRO"
-        // ]
-
-        //get doctors
-
+        
         this.setState({
             selectValue: { value: 'CARDIOLOGIST' }
         })
@@ -159,7 +137,9 @@ class DocotrList extends Component {
                      <CardActions>
                             <Button className="btn" style={{margin:"10px", backgroundColor:"blue", width:"40%" }}>
                                  <Link className="lnk" to={`bookappointment/${doctor.id}/${doctor.firstName}/${doctor.lastName}`} > Book Appointment </Link></Button>
-                            <Button className="btn" style={{margin:"10px", backgroundColor:"green", width:"40%"}} > <Link className="lnk" to={`doctordetails/${doctor.id}/${doctor.firstName}/${doctor.lastName}/${doctor.mobile}/${doctor.emailId}/${doctor.speciality}/${doctor.rating}`} > View Details </Link></Button>
+                            <DoctorDetails doctorId = {doctor.id} doctorFirstName= {doctor.firstName}
+                                doctorLastName = {doctor.lastName} mobile = {doctor.mobile} email = {doctor.emailId}
+                                speciality = {doctor.speciality} rating = {doctor.rating} ></DoctorDetails>
                      </CardActions>
                     </Card>
                 
